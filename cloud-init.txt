@@ -9,6 +9,7 @@ runcmd:
 - [ pip, install, ansible ]
 - [ ansible-pull, -U, "https://github.com/chhanz/ansible.cloud-init-prometheus-stack.git", -v, site.yml ]
 
+# for cloud-init v22.3.x or latest
 # https://cloudinit.readthedocs.io/en/latest/topics/modules.html#module-cloudinit.config.cc_ansib
 #ansible:
 #  install_method: pip
