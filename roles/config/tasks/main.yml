@@ -9,11 +9,6 @@
     src: grafana.ini.j2
     dest: "/etc/grafana/grafana.ini"
 
-- name: grafana enable port '80'
-  ansible.builtin.template:
-    src: grafana-override.conf.j2
-    dest: "/etc/systemd/system/grafana-server.service.d/override.conf"
-    
 - name: create config dir
   ansible.builtin.file:
     path: "{{ item }}"
@@ -21,6 +16,11 @@
   with_items:
     - "/etc/systemd/system/grafana-server.service.d"
     - "/var/lib/grafana/dashboards/"
+
+- name: grafana enable port '80'
+  ansible.builtin.template:
+    src: grafana-override.conf.j2
+    dest: "/etc/systemd/system/grafana-server.service.d/override.conf"
 
 - name: deploy grafana datasource
   ansible.builtin.copy:
