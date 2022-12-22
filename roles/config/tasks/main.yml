@@ -44,5 +44,6 @@
 
 - name: restart grafana service
   ansible.builtin.systemd:
+    daemon_reload: yes
     state: restarted
     name: grafana-server
