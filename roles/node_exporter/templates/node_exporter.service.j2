@@ -1,0 +1,11 @@
+[Unit]
+Description=Node Exporter
+Requires=node_exporter.socket
+
+[Service]
+#User=node_exporter
+ExecStart={{ node_exporter_default_dir }}/node_exporter --web.systemd-socket \
+          --collector.textfile.directory {{ node_exporter_default_dir }}/textfile_collector
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,4 @@
+---
+grafana_port: 80
+
+node_exporter_target: "localhost:9100"

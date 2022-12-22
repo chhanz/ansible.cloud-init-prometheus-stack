@@ -1,0 +1,11 @@
+---
+- name: install grafana
+  ansible.builtin.package:
+    name: "{{ grafana_rpm_url }}"
+    state: latest
+
+- name: start grafana
+  ansible.builtin.systemd:
+    state: started
+    name: grafana-server
+    enabled: yes

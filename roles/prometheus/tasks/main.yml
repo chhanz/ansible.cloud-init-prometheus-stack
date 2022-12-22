@@ -1,0 +1,33 @@
+---
+- name: download prometheus
+  ansible.builtin.get_url:
+    url: "{{ prometheus_download_url }}"
+    dest: /tmp/prometheus.tar.gz
+
+- name: unarchive package
+  ansible.builtin.unarchive:
+    src: /tmp/prometheus.tar.gz
+    dest: /opt/
+
+- name: rename directory
+  ansible.builtin.copy:
+    src: "{{ prometheus_default_dir }}-{{ prometheus_version }}/"
+    dest: "{{ prometheus_default_dir }}"
+    remote_src: yes
+
+- name: remove old directory
+  ansible.builtin.file:
+    path: "{{ prometheus_default_dir }}-{{ prometheus_version }}"
+    state: absent
+
+- name: create prometheus service
+  ansible.builtin.template:
+    src: prometheus.service.j2
+    dest: /etc/systemd/system/prometheus.service
+
+- name: start prometheus
+  ansible.builtin.systemd:
+    state: started
+    daemon_reload: yes
+    name: prometheus
+    enabled: yes

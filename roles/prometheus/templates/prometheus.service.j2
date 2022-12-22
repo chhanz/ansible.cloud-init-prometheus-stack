@@ -1,0 +1,15 @@
+[Unit]
+Description=Prometheus
+Documentation=https://prometheus.io/docs/introduction/overview/
+After=network-online.target
+
+[Service]
+Restart=on-failure
+ExecStart={{ prometheus_default_dir }}/prometheus \
+  --config.file={{ prometheus_default_dir }}/prometheus.yml \
+  --storage.tsdb.path={{ prometheus_default_dir }}/data \
+  --storage.tsdb.retention.time=30d
+
+[Install]
+WantedBy=multi-user.target
+

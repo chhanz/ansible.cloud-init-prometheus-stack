@@ -1,0 +1,45 @@
+---
+- name: deploy prometheus config
+  ansible.builtin.template:
+    src: prometheus.yml.j2
+    dest: "/opt/prometheus/prometheus.yml"
+
+- name: deploy grafana config
+  ansible.builtin.template:
+    src: grafana.ini.j2
+    dest: "/etc/grafana/grafana.ini"
+
+- name: grafana enable port '80'
+  ansible.builtin.template:
+    src: grafana-override.conf.j2
+    dest: "/etc/systemd/system/grafana-server.service.d/override.conf"
+    
+- name: create dashboard dir
+  ansible.builtin.file:
+    path: "/var/lib/grafana/dashboards"
+    state: directory
+
+- name: deploy grafana datasource
+  ansible.builtin.copy:
+    src: prometheus-grafana-provider.yml
+    dest: /etc/grafana/provisioning/datasources/
+
+- name: deploy grafana dashboard
+  ansible.builtin.copy:
+    src: dashboard.yml
+    dest: /etc/grafana/provisioning/dashboards/
+
+- name: import node_exporter dashboard
+  ansible.builtin.copy:
+    src: node_exporter.json
+    dest: /var/lib/grafana/dashboards/node_exporter.json
+
+- name: restart prometheus service
+  ansible.builtin.systemd:
+    state: restarted
+    name: prometheus
+
+- name: restart grafana service
+  ansible.builtin.systemd:
+    state: restarted
+    name: grafana-server
