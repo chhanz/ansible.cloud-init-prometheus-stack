@@ -5,6 +5,7 @@ This playbook is for installing Prometheus Stack on Amazon Linux 2 using Cloud-i
 # Test Environment
 * Amazon Linux 2   
 * ansible-core: 2.11.12   
+* Python 2.7.18   
 
 # Cloud-init Script
 for cloud-init old version   
