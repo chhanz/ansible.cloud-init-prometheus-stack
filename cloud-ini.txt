@@ -1,0 +1,17 @@
+#cloud-config
+packages_update: true
+packages_upgrade: true
+packages:
+  - git
+  - python2-pip
+
+runcmd:
+- [ pip, install, ansible ]
+- [ ansible-pull, -U, https://github.com/chhanz/ansible.cloud-init-prometheus-stack.git, site.yml]
+
+# https://cloudinit.readthedocs.io/en/latest/topics/modules.html#module-cloudinit.config.cc_ansib
+#ansible:
+#  install_method: pip
+#  pull:
+#    url: "https://github.com/chhanz/ansible.cloud-init-prometheus-stack.git"
+#    playbook_name: site.yml
